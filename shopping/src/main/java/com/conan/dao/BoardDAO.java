@@ -179,19 +179,20 @@ public class BoardDAO {
 
 	public int increaseHit(Integer boardNo) { // 인자가 한개면 인자 하나로만 setting 가능
 		// 조회수 증가
+		int num=0;
 		String sql = "update Board set hit=hit+1 where boardNo=?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = getConnection().prepareStatement(sql);
 			pstmt.setInt(1, boardNo);
 
+			num=pstmt.executeUpdate();
 			close(conn, pstmt);
-			return pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return boardNo;
+		return num;
 	}
 }
