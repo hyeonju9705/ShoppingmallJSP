@@ -88,7 +88,7 @@ public class addProductProc extends HttpServlet {
 			pstmt.close();
 			conn.close();
 			
-			RequestDispatcher rd= request.getRequestDispatcher("productList.jsp");
+			RequestDispatcher rd= request.getRequestDispatcher("/product/productList");
 			rd.forward(request, response);
 		}catch(Exception e){
 			System.out.print("업로드 오류 발생");

@@ -87,15 +87,15 @@ public class BoardDAO {
 	public BoardVO selectBoard(Integer boardNo) {// 특정 게시글 정보 반환
 		String sql = "select * from Board where boardNo=?";
 		PreparedStatement pstmt;
-		BoardVO bd=null;
+		BoardVO bd = null;
 		try {
 			pstmt = getConnection().prepareStatement(sql);
 
 			pstmt.setInt(1, boardNo);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-				bd = new BoardVO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-						rs.getString(5), rs.getInt(6));
+				bd = new BoardVO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getInt(6));
 			}
 			close(conn, pstmt, rs);// 내가 추가
 		} catch (SQLException e) {
@@ -131,17 +131,17 @@ public class BoardDAO {
 		// 게시글 번호에 해당하는 게시글 수정
 		String sql = "update Board set title=?, content=? where boardNo=?";
 		PreparedStatement pstmt;
-		
-		int num=0;
+
+		int num = 0;
 		try {
-		pstmt = getConnection().prepareStatement(sql);
-		
-		pstmt.setString(1, vo.getTitle());
-		pstmt.setString(2, vo.getContent());
-		pstmt.setInt(3, vo.getBoardNo());
-		
-		num= pstmt.executeUpdate();
-		close(conn, pstmt);
+			pstmt = getConnection().prepareStatement(sql);
+
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setInt(3, vo.getBoardNo());
+
+			num = pstmt.executeUpdate();
+			close(conn, pstmt);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,13 +153,13 @@ public class BoardDAO {
 		// 게시글 번호에 해당하는 게시글 삭제
 		String sql = "delete from Board where boardNo=?";
 		PreparedStatement pstmt;
-		int num=0;
+		int num = 0;
 		try {
 			pstmt = getConnection().prepareStatement(sql);
 			pstmt.setInt(1, boardNo);
 
-			num= pstmt.executeUpdate(); // 행 수 출력해주는 거 = int형 반환해야될때 할거없음 이거! }
-			close(conn,pstmt);
+			num = pstmt.executeUpdate(); // 행 수 출력해주는 거 = int형 반환해야될때 할거없음 이거! }
+			close(conn, pstmt);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -168,31 +168,63 @@ public class BoardDAO {
 
 	}
 
-	public int getListCount() throws SQLException {
+	public int getListCount() {
 		// 게시글 개수 반환
+		int num=0;
 		String sql = "select count(*) from Board";
-		PreparedStatement pstmt = getConnection().prepareStatement(sql);
+		PreparedStatement pstmt;
+		try {
+			pstmt = getConnection().prepareStatement(sql);
+		
 		ResultSet rs = pstmt.executeQuery();
 		rs.next();// rs.next를 안하면 출력이안되지
-		return rs.getInt(1); // count로 센 거 출력
+		num= rs.getInt(1); // count로 센 거 출력
+		close(conn, pstmt,rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return num;
 	}
 
 	public int increaseHit(Integer boardNo) { // 인자가 한개면 인자 하나로만 setting 가능
 		// 조회수 증가
-		int num=0;
+		int num = 0;
 		String sql = "update Board set hit=hit+1 where boardNo=?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = getConnection().prepareStatement(sql);
 			pstmt.setInt(1, boardNo);
 
-			num=pstmt.executeUpdate();
+			num = pstmt.executeUpdate();
 			close(conn, pstmt);
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return num;
+	}
+
+	public ArrayList<BoardVO> selectSubject(String title) {
+		// 제목 검색
+		ArrayList<BoardVO> bd = new ArrayList<BoardVO>();
+		String sql = "select * from Board where title like ? ";
+		PreparedStatement pstmt;
+		try {
+			pstmt = getConnection().prepareStatement(sql);
+			pstmt.setString(1, "%"+title+"%");
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bd.add(new BoardVO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getInt(6)));
+			}
+			close(conn, pstmt, rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bd;
 	}
 }

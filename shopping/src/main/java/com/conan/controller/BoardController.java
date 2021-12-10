@@ -68,12 +68,21 @@ public class BoardController extends HttpServlet {
 		}else if(cmd.equals("/board/listProc.do")) {
 			BoardDAO dao = BoardDAO.getInstance();
 			ArrayList<BoardVO> voList;
+			String text=request.getParameter("text");
+			
+			if(text==null && request.getParameter("items")==null) {
 			voList = dao.selectBoardAll();
+			}else {
+				voList=dao.selectSubject(text);
+			}
 			System.out.println("size" +voList.size());
 			request.setAttribute("voList", voList);
+			
+			request.setAttribute("cnt", dao.getListCount());
 			//게시글 목록 디비에서 불러와서 list.jsp에 출력하기
 			System.out.println("list" +cmd);
 			System.out.println("=========================");
+			
 			RequestDispatcher rd = request.getRequestDispatcher("/board/list.jsp");
 			rd.forward(request, response);
 			
@@ -123,6 +132,24 @@ public class BoardController extends HttpServlet {
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/board/view.jsp?boardNo="+boardNo);
 			rd.forward(request, response);
+			
+		}else if(cmd.equals("/board/selectProc.do")) {
+			String select[] = request.getParameterValues("items");
+			BoardDAO dao = BoardDAO.getInstance();
+			String text= request.getParameter("text");
+			
+			for(int i=0; i<select.length; i++) {
+				if (select[i].equals("subject")) {
+					//검색
+					ArrayList<BoardVO> vo =dao.selectSubject(text);
+					
+					request.setAttribute("bd", vo);
+					System.out.println("text 출력되니?  "+dao.selectSubject(text));
+					
+					RequestDispatcher rd = request.getRequestDispatcher("/board/listProc.do");
+					rd.forward(request, response);
+				}
+			}
 		}
 		
 		

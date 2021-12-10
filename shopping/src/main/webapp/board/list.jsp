@@ -17,10 +17,11 @@
 		</div>
 	</div>
 	<div class="container">
-		<form action="<c:url value="/board/writeFrm.jsp" />" method="post">
+	<!-- <c:url value="/board/writeFrm.jsp" /> -->
+		<form action="<c:url value="/board/selectProc.do" />" method="post">
 			<div>
 				<div class="text-right">
-					<%-- <span class="badge badge-warning">총 게시글 수 : ${cnt}</span> --%>
+					<span class="badge badge-warning">총 게시글 수 : ${cnt}</span>
 				</div>
 			</div>
 			
@@ -52,8 +53,16 @@
 					</c:forEach>
 				</table>
 				<table>
-				
 				<tr>
+				<td width="100%" align="left">&nbsp;&nbsp;
+				<select name="items" class="txt">
+				<option value="subject">제목에서</option>
+				<option value="content">본문에서</option>
+				<option value="name">글쓴이에서</option>
+				</select>
+				<input name="text" type="text"/>
+				<input type="submit" id="btnAdd" class="btn btn-danger" value="검색">
+				</td>
 					<td width="100%" align="right"><a
 						href="<%=request.getContextPath()%>/board/writeFrm.jsp"
 						onclick="checkForm(); return false;" class="btn btn-info">
