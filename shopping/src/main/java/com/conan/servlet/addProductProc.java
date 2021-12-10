@@ -49,10 +49,11 @@ public class addProductProc extends HttpServlet {
 		try{//multi는 addProduct.jsp에서 enctype="multipart/form-data" 땜에 제일 먼저 된다. 그래서 항상
 			//multi는 맨 윗줄에서 처리 해야함!
 			MultipartRequest multi = new MultipartRequest(
-			request,path,size,"UTF-8", new DefaultFileRenamePolicy());
-			Enumeration files = multi.getFileNames();
+			request,path,size,"UTF-8", new DefaultFileRenamePolicy()); //multi에서 fileName을 재가공 하는듯하다
+			//파일 네임이 중복되면 뒤에 숫자를 붙여서 중복되지 않도록 해주는 방식
+			Enumeration files = multi.getFileNames(); //files를 열거형으로 선언하고, 거기다가 fileName을 넣어줌
 			//request.getParameter()로 받는게아니라 multi.getParameter로 받는 이유
-			// MultipartRequest multi= new MultipartRequest(request,path,size)에서 
+			//MultipartRequest multi= new MultipartRequest(request,path,size)에서 
 			//request에 대한 모든 요청을 다 multi에 넣어버리기땜에
 			//request.getParameter가 아닌 multi.getParameter로 받아야함
 			//중요!!!!!!!!!

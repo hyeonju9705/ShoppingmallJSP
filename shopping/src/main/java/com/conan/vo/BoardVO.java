@@ -11,6 +11,16 @@ public class BoardVO {
 	public BoardVO() {
 		// TODO Auto-generated constructor stub
 	}
+	public BoardVO(String userId, String title, String content) {
+		this.userId=userId;
+		this.title=title;
+		this.content=content;
+	}
+	public BoardVO(String title, String content, int boardNo) {
+		this.title=title;
+		this.content=content;
+		this.boardNo=boardNo;
+	}
 	public BoardVO(int boardNo, String userId, String title, String content, String regDate, int hit) {
 		this.boardNo=boardNo;
 		this.userId=userId;

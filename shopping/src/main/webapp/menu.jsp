@@ -19,7 +19,7 @@ integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6J
 </div>
 <div>
 <ul class="navbar-nav mr-auto">
-
+<li class="nav-item"><a class="nav-link" href="${contextPath }/board/listProc.do">게시판</a></li>
 <%if(session.getAttribute("userId")!=null){%>
 <li class="nav-item"><a class="nav-link" href="#">[<%=(String)session.getAttribute("userId")%>님]></a></li>
 <li class="nav-item"><a class="nav-link" href="${contextPath}/logoutProc.jsp">로그아웃</a></li>
