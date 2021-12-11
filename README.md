@@ -23,3 +23,4 @@ Jsp와 servlet을 이해하고 spring으로 넘어가기 위해서 제작해봄
 11. 또한 dao에서 싱글톤을 사용하며 dao.getInstance()의 편리함에 대해서도 숙지함
 12. el태그의 편리성 및 setAttribute로 el태그 사용, core의 사용법에 대해서도 이해함
 13. include태그는 상대경로로 지정하고, controller로 넘길때는 절대경로로 지정하고 이런 원인으로 404error 이슈가 발생하여 request.getContextPath()의 중요성에 대해 알게됨
+14. 장바구니를 만들면서 session과 cookie의 개념에 대해 알게됨
